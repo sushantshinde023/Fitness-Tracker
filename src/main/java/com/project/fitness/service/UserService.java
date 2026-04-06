@@ -1,9 +1,11 @@
 package com.project.fitness.service;
 
+import com.project.fitness.dto.RegisterRequest;
+import com.project.fitness.dto.UserResponse;
 import com.project.fitness.model.User;
 import org.springframework.stereotype.Service;
 
 
 public interface UserService {
-     User register(User user);
+     UserResponse register(RegisterRequest user);
 }
