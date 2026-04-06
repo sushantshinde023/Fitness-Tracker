@@ -9,5 +9,4 @@ public class FitnessMonolithicApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FitnessMonolithicApplication.class, args);
 	}
-
 }

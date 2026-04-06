@@ -11,37 +11,44 @@ import org.hibernate.type.SqlTypes;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @Data //combination @Getter/@Setter/@RequiredArgsContructor/@ToString/@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class Activity {
+public class Recommendation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)//If we don't add this annotation it will store index in database not actual string
-    private ActivityType type;
+    private String type;
+
+    @Column(length=2000)
+    private String recommendation;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "json")
-    private Map<String, Object> additionalMetrics;
+    private List<String> improvements;
 
-    private Integer duration;
-    private Integer caloriesBurned;
-    private LocalDateTime startTime;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "json")
+    private  List<String> suggestions;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "json")
+    private List<String> safety;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id" , nullable = false , foreignKey = @ForeignKey(name="fk_activity_user"))
+    @JoinColumn(name = "user_id", nullable = false,foreignKey = @ForeignKey(name = "fk_recommendation_user"))
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL,orphanRemoval = true)
-    @JsonIgnore
-    private List<Recommendation> recommendations = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "activity_id", nullable = false,foreignKey = @ForeignKey(name = "fk_recommendation_activity"))
+    @JsonIgnore
+    private Activity activity;
 }
