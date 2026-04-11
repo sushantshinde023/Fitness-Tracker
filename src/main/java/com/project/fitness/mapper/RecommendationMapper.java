@@ -19,7 +19,7 @@ public class RecommendationMapper {
         return recommendation;
     }
 
-    public RecommendationResponseDto toResponse(Recommendation recommendation){
+    public static RecommendationResponseDto toResponse(Recommendation recommendation){
         return new RecommendationResponseDto(
                 recommendation.getId(),recommendation.getUser().getId(),recommendation.getActivity().getId(),recommendation.getType(),
                 recommendation.getRecommendation(),recommendation.getImprovements(),recommendation.getSuggestions(),

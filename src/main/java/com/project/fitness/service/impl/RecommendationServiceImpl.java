@@ -12,6 +12,9 @@ import com.project.fitness.repository.UserRepository;
 import com.project.fitness.service.RecommendationService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class RecommendationServiceImpl implements RecommendationService {
 
@@ -36,6 +39,18 @@ public class RecommendationServiceImpl implements RecommendationService {
         recommendation.setActivity(activity);
 
         Recommendation savedRecommendation=recommendationRepository.save(recommendation);
-        return mapper.toResponse(savedRecommendation);
+        return RecommendationMapper.toResponse(savedRecommendation);
+    }
+
+    @Override
+    public List<RecommendationResponseDto> getUserRecommendation(Long userId) {
+        List<Recommendation> recommendationList=recommendationRepository.findByUserId(userId);
+        return recommendationList.stream().map(RecommendationMapper::toResponse).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RecommendationResponseDto> getActivityRecommendation(Long activityId) {
+        List<Recommendation> recommendationList=recommendationRepository.findByActivityId(activityId);
+        return recommendationList.stream().map(RecommendationMapper::toResponse).collect(Collectors.toList());
     }
 }
